@@ -5,9 +5,9 @@ from datetime import datetime
 
 # GitHub Secrets 또는 로컬 환경변수에서 키값 불러오기
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
-#TELEGRAM_TO = os.environ.get('TELEGRAM_TO')
-TELEGRAM_TO = "-1003184837958"
-FRED_API_KEY = os.environ.get("FRED_API_KEY")
+TELEGRAM_TO = os.environ.get('TELEGRAM_TO')
+#TELEGRAM_TO = "-1003184837958"
+FRED_API_KEY = os.environ.get('FRED_API_KEY')
 
 def get_fred_data(series_id):
     """FRED API에서 최신 지표 1개 가져오기"""
