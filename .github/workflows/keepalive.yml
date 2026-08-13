@@ -1,0 +1,34 @@
+name: Keepalive
+
+# GitHub는 저장소에 커밋 활동이 60일간 없으면 schedule 트리거를 자동으로 끕니다.
+# 매달 1일에 타임스탬프 파일만 갱신하는 더미 커밋을 남겨 타이머를 리셋합니다.
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'     # 매월 1일 UTC 03시 (KST 정오)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 타임스탬프 갱신 후 커밋
+        run: |
+          mkdir -p .github
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/last-active.txt
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/last-active.txt
+
+          if git diff --staged --quiet; then
+            echo "변경 없음 - 건너뜀"
+          else
+            git commit -m "chore: keepalive [skip ci]"
+            git push
+          fi
