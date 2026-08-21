@@ -2,10 +2,11 @@ name: Macro Early Warning
 
 on:
   schedule:
-    # UTC 23:00 = 한국시간(KST) 다음날 08:00
-    # 일~목 UTC 실행 → 한국 기준 월~금 아침 8시
-    - cron: '15 20 * * 0-5'
-  workflow_dispatch:        # 액션 탭에서 수동 실행 버튼
+    # 20:40 UTC = 다음날 05:40 KST
+    # GitHub 예약 실행은 30분 지연될 수 있어 30분 앞당겨 둡니다.
+    # UTC 일~금(0-5) = KST 월~토 → 일요일 수신 제외
+    - cron: "40 20 * * 0-5"
+  workflow_dispatch:        # Actions 탭에서 수동 실행 버튼
 
 jobs:
   send-alert:
